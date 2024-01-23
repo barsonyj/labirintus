@@ -42,6 +42,7 @@
             let s=0, o=0;
             let sor = [];
             let osz = [];
+            setKep(ds, 30, "wall");
             for (s=1; s<20; s++) for (o=1; o<30; o++) setKep(s, o, "null");
             while (sor.length + osz.length < 23) {
                 if (Math.random() > 0.5 && sor.length < 9) {
@@ -79,9 +80,22 @@
             document.getElementById(s+"x"+o).src = "icons/" + kep + ".png";
             t[s][o] = kep;
         }
+
+        let go = [ "null", "key", "exit" ];
+        function mozog() {
+            let b = event.key;
+            setKep(ps, po, "null");
+            if (b == 'w' && go.includes(t[ps-1][po])) ps--;
+            if (b == 's' && go.includes(t[ps+1][po])) ps++;
+            if (b == 'a' && go.includes(t[ps][po-1])) po--;
+            if (b == 'd' && go.includes(t[ps][po+1])) po++;
+            if (t[ps][po] == "key") setKep(ds, 30, "exit");
+            if (t[ps][po] == "exit") gondol();
+            setKep(ps, po, "man");
+        }
     </script>
 </head>
-<body onload="start();">
+<body onload="start();" onkeypress="mozog();">
     
     <div id="jatek"></div>
 
